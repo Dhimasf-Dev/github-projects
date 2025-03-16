@@ -1,0 +1,103 @@
+
+  .readmePageWrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+  
+  .backLink {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    color: #0070f3;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 6px;
+    z-index: 10;
+  }
+  
+  .backLink:hover {
+    color: #005bb5;
+  }
+  
+  .icon {
+    margin-right: 8px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 50px;
+  }
+  
+  .readmeContainer {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1100px;
+    text-align: left;
+    min-height: 80vh;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .readmeContent {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 70vh;
+    padding: 15px;
+    background: #f9f9f9;
+    border-left: 4px solid #0070f3;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+
+  @media (max-width: 768px) {
+    .readmePageWrapper {
+      padding: 10px;
+    }
+  
+    .backLink {
+      top: 15px;
+      left: 15px;
+      font-size: 16px;
+      padding: 6px 10px;
+    }
+  
+    .title {
+      font-size: 20px;
+      margin-top: 60px;
+    }
+  
+    .readmeContainer {
+      padding: 15px;
+      max-width: 95%;
+      min-height: 75vh;
+    }
+  
+    .readmeContent {
+      font-size: 13px;
+      padding: 12px;
+      max-height: 60vh;
+    }
+  }
+  
