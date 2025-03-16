@@ -5,8 +5,9 @@ import ReadmeViewer from "../components/ReadmeViewer";
 import Link from "next/link";
 import styles from "../styles/ReadmePage.module.css";
 import { FaArrowLeft } from "react-icons/fa";
+import { Suspense } from "react";
 
-export default function ReadmePage() {
+function ReadmeContent() {
   const searchParams = useSearchParams();
   const username = searchParams.get("username");
   const repo = searchParams.get("repo");
@@ -25,5 +26,13 @@ export default function ReadmePage() {
         <ReadmeViewer username={username} repo={repo} />
       </div>
     </div>
+  );
+}
+
+export default function ReadmePage() {
+  return (
+    <Suspense fallback={<p className={styles.loading}>Loading README...</p>}>
+      <ReadmeContent />
+    </Suspense>
   );
 }

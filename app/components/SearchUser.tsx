@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searchUser } from "../../store/slices/searchUser";
 import { RootState, AppDispatch } from "../../store";
@@ -9,11 +9,11 @@ import { FaSearch, FaUsers, FaCodeBranch, FaUserFriends } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function SearchUser({ onSearch }: { onSearch: (username: string) => void }) {
+function SearchUserContent({ onSearch }: { onSearch: (username: string) => void }) {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const initialUsername = searchParams.get("username") || "";
   const [tempInput, setTempInput] = useState(initialUsername);
   const { username, loading, error } = useSelector((state: RootState) => state.username);
@@ -23,7 +23,7 @@ export default function SearchUser({ onSearch }: { onSearch: (username: string) 
       dispatch(searchUser(initialUsername));
       onSearch(initialUsername);
     }
-  }, [initialUsername, onSearch]);
+  }, [initialUsername, onSearch, dispatch]);
 
   const handleSearch = () => {
     if (tempInput.trim()) {
@@ -41,16 +41,14 @@ export default function SearchUser({ onSearch }: { onSearch: (username: string) 
       </div>
     );
   }
-  
 
   if (error) {
     return <p className={styles.error}>{error}</p>;
   }
 
-
   return (
-    <div className={`${styles.container}`}>
-      <h1 className={styles.title}>GitHub username Search</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>GitHub Username Search</h1>
       <div className={styles.searchBox}>
         <input
           type="search"
@@ -66,14 +64,14 @@ export default function SearchUser({ onSearch }: { onSearch: (username: string) 
 
       {username && (
         <div className={styles.userInfo}>
-            {/* <Image 
-                src={username.avatar_url} 
-                alt="User Avatar" 
-                width={100} 
-                height={100} 
-                className={styles.avatar}
-                priority
-            /> */}
+          {/* <Image 
+              src={username.avatar_url} 
+              alt="User Avatar" 
+              width={100} 
+              height={100} 
+              className={styles.avatar}
+              priority
+          /> */}
           <div className={styles.userDetails}>
             <h2>{username.name || username.login}</h2>
             <p>{username.bio || "No bio available"}</p>
@@ -82,12 +80,20 @@ export default function SearchUser({ onSearch }: { onSearch: (username: string) 
               <span><FaUserFriends /> {username.following} Following</span>
               <span><FaCodeBranch /> {username.public_repos} Repos</span>
             </div>
-            <a href={username.html_url} target="_blank" rel="noopener noreferrer" aria-label={`View README for ${username.public_repos}`} className={styles.profileButton}>
+            <a href={username.html_url} target="_blank" rel="noopener noreferrer" className={styles.profileButton}>
               View Profile
             </a>
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchUser({ onSearch }: { onSearch: (username: string) => void }) {
+  return (
+    <Suspense fallback={<p className={styles.loading}>Loading search...</p>}>
+      <SearchUserContent onSearch={onSearch} />
+    </Suspense>
   );
 }
